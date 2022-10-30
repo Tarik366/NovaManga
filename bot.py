@@ -9,6 +9,7 @@ import datetime as dt
 import feedparser
 from RSS import *
 
+a = 959163398657019985
 intents = Intents.all()
 Bot = commands.Bot("!", help_command=None, intents=intents)
 load_dotenv()
@@ -19,7 +20,7 @@ async def on_ready():
     fentry = NF.entries[0]
     msg1.start()
 
-@tasks.loop(minutes=1)
+@tasks.loop(minutes=5)
 async def msg1():
     NF = feedparser.parse("https://nova-manga.com/feed/")
     entry = NF.entries[0]
@@ -29,7 +30,7 @@ async def msg1():
     if sentry not in ar:
         emed = Embed(title=f"{entry.title} yayında keyifli okumalar!", description=f"okumak için {entry.link}", url=entry.link)
         emed = emed.set_image(url = n.img)
-        channel = Bot.get_channel(968587865284038658)
+        channel = Bot.get_channel(a)
         await channel.send(embed=emed)
         wle = open("lastEntry.txt", "w")
         wle.write(sentry)
@@ -40,7 +41,7 @@ async def msg1():
 async def o(ctx):
     emed = Embed(title=f"{n.title} yayında keyifli okumalar!", description=f"okumak için {n.link}", url=n.link)
     emed = emed.set_image(url = n.img)
-    channel = Bot.get_channel(968587865284038658)
+    channel = Bot.get_channel(a)
     await channel.send(embed=emed)
 
 Bot.run(os.getenv('token')) 

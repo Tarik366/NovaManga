@@ -4,7 +4,6 @@ from discord import *
 from discord.ext import commands, tasks
 import os.path
 from dotenv.main import load_dotenv
-import asyncio
 import datetime as dt
 import feedparser
 from RSS import *

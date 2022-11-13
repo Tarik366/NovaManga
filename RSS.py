@@ -1,6 +1,4 @@
-
 import feedparser
-from numpy import source
 import requests
 from bs4 import BeautifulSoup
 import lxml

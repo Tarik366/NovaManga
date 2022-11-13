@@ -8,7 +8,7 @@ import datetime as dt
 import feedparser
 from RSS import *
 
-a = 959163398657019985
+a = 1034908325336334389
 intents = Intents.all()
 Bot = commands.Bot("!", help_command=None, intents=intents)
 load_dotenv()
@@ -30,7 +30,7 @@ async def msg1():
         emed = Embed(title=f"{entry.title} yayında keyifli okumalar!", description=f"okumak için {entry.link}", url=entry.link)
         emed = emed.set_image(url = n.img)
         channel = Bot.get_channel(a)
-        await channel.send(embed=emed)
+        print(emed)
         wle = open("lastEntry.txt", "w")
         wle.write(sentry)
         wle.close
@@ -40,7 +40,6 @@ async def msg1():
 async def o(ctx):
     emed = Embed(title=f"{n.title} yayında keyifli okumalar!", description=f"okumak için {n.link}", url=n.link)
     emed = emed.set_image(url = n.img)
-    channel = Bot.get_channel(a)
-    await channel.send(embed=emed)
+    await ctx.send(embed=emed)
 
 Bot.run(os.getenv('token')) 

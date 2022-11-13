@@ -1,0 +1,5 @@
+bs4
+discord.py
+opencv-python
+requests
+python-dotenv

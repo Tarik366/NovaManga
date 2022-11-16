@@ -19,7 +19,7 @@ async def on_ready():
     fentry = NF.entries[0]
     msg1.start()
 
-@tasks.loop(minutes=1)
+@tasks.loop(minutes=10)
 async def msg1():
     NF = feedparser.parse("https://nova-manga.com/feed/")
     entry = NF.entries[0]

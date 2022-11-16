@@ -8,7 +8,7 @@ import datetime as dt
 import feedparser
 from RSS import *
 
-a = 1034908325336334389
+a = 1034908325336334389 
 intents = Intents.all()
 Bot = commands.Bot("!", help_command=None, intents=intents)
 load_dotenv()

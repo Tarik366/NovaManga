@@ -19,21 +19,21 @@ async def on_ready():
     fentry = NF.entries[0]
     msg1.start()
 
-@tasks.loop(minutes=5)
+@tasks.loop(minutes=1)
 async def msg1():
     NF = feedparser.parse("https://nova-manga.com/feed/")
     entry = NF.entries[0]
     le = open("lastEntry.txt", "r")
     ar = le.read()
     sentry = str(entry)
-    if sentry not in ar:
+    if sentry not in str(ar):
         emed = Embed(title=f"{entry.title} yayında keyifli okumalar!", description=f"okumak için {entry.link}", url=entry.link)
         emed = emed.set_image(url = n.img)
         channel = Bot.get_channel(a)
         print(emed)
-        wle = open("lastEntry.txt", "w")
-        wle.write(sentry)
-        wle.close
+        with open("lastEntry.txt", "w") as wle:
+            wle.write(sentry)
+        await channel.send(embed=emed)
 
 
 @Bot.command()

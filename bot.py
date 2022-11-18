@@ -16,13 +16,13 @@ load_dotenv()
 
 @Bot.event
 async def on_ready():
-    NF = feedparser.parse("https://athenafansub.com/feed/")
+    NF = feedparser.parse("https://https://nova-manga.com/feed/")
     fentry = NF.entries[0]
     msg1.start()
 
 @tasks.loop(minutes=1)
 async def msg1():
-    NF = feedparser.parse("https://athenafansub.com/feed/")
+    NF = feedparser.parse("https://https://nova-manga.com/feed/")
     entry = NF.entries[0]
     le = open("lastEntry.txt", "r", encoding="utf-8")
     ar = le.read()
@@ -35,7 +35,7 @@ async def msg1():
             catt = cat.replace(" ", "-")
             catt = catt.replace("'", "").lower()
 
-        h = "https://athenafansub.com/manga/" + n.catt + "/"
+        h = "https://https://nova-manga.com/manga/" + n.catt + "/"
         print(h)
 
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}

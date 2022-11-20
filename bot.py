@@ -18,6 +18,9 @@ load_dotenv()
 async def on_ready():
     NF = feedparser.parse("https://athenafansub.com/feed/")
     fentry = NF.entries[0]
+    hentry = fentry.title
+    with open("lastEntry.txt", "w", encoding="utf-8") as wle:
+        wle.write(hentry)
     msg1.start()
 
 @tasks.loop(minutes=3)

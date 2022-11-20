@@ -9,7 +9,7 @@ import requests
 import feedparser
 from bs4 import BeautifulSoup
 
-a = 1034908325336334389 
+a = 959163398657019985 
 intents = Intents.all()
 Bot = commands.Bot("!", help_command=None, intents=intents)
 load_dotenv()

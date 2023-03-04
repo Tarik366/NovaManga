@@ -1,29 +1,51 @@
+import os
+from keep_alive import keep_alive
 import time
 import discord
 from discord import *
 from discord.ext import commands, tasks
+from discord.utils import get
 import os.path
 from dotenv.main import load_dotenv
 import datetime as dt
 import requests
 import feedparser
 from bs4 import BeautifulSoup
+from time import sleep
+from os import system
 
-a = 959163398657019985 
-intents = Intents.all()
+load_dotenv()
+
+a = 1034908325336334389
+intents = discord.Intents.all()
 Bot = commands.Bot("!", help_command=None, intents=intents)
 load_dotenv()
 
 @Bot.event
 async def on_ready():
-    NF = feedparser.parse("https://athenafansub.com/feed/")
+    NF = feedparser.parse("https://nova-manga.com/feed/")
     fentry = NF.entries[0]
-    hentry = fentry.title
-    with open("lastEntry.txt", "w", encoding="utf-8") as wle:
-        wle.write(hentry)
     msg1.start()
+    keep_alive()
+   
+class RolMenu(ui.View):
+    def __init__(self):
+        super().__init__()
+        self.value = None
 
-@tasks.loop(minutes=3)
+    @discord.ui.button(label="Japonca sohbet", style=ButtonStyle.grey)
+    async def Japonca(self, interaction: Interaction, button: ui.Button):
+        author = interaction.user
+        role = get(author.guild.roles, name="Japonca Öğrenenler")
+        if role in author.roles:
+            await author.remove_roles(role)
+            await interaction.response.send_message(f"{role} rolünü bıraktınız", ephemeral=True)
+        else:
+            author = interaction.user
+            await author.add_roles(role)
+            await interaction.response.send_message(f"{role} rolünü aldınız", ephemeral=True)
+
+@tasks.loop(seconds=3)
 async def msg1():
     
     
@@ -34,7 +56,6 @@ async def msg1():
     le = open("lastEntry.txt", "r", encoding="utf-8")
     ar = le.read()
     
-    
     class n:
         title = entry.title
         link = entry.link
@@ -43,24 +64,18 @@ async def msg1():
         catt = catt.replace("'", "").lower()
         
         
-    h = "https://nova-manga.com/manga/" + n.catt + "/"
+    h = "https://nova-manga.com/"
     sentry = entry.title
     
     
     if sentry not in str(ar):
-        print(h)
 
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
         sou = requests.get(h, headers=headers)
         soup = BeautifulSoup(sou.content, 'html.parser')
         
-        
-        hgf = "https://athenafansub.com/wp-content/themes/mangastream/assets/images/noimg165px.png"
-        
         def ws():
-            for s in soup.find_all("div", class_="thumb"):
-                
-                
+            for s in soup.find_all("div", class_="utao"):
                 for item in s.find_all('img', class_="wp-post-image"):
                     i = item['src']
                     im = i.split("\n")
@@ -69,17 +84,19 @@ async def msg1():
                     return hgf
 
         nimg = ws()
-        emed = Embed(title=f"{entry.title} yayında keyifli okumalar!", description=f"okumak için {entry.link}", url=entry.link)
+        emed = discord.Embed(title=f"{entry.title} yayında keyifli okumalar!", description=f"okumak için {entry.link}", url=entry.link)
         emed = emed.set_image(url = nimg)
 
         channel = Bot.get_channel(a)
 
-        print(str(ar))
+        await channel.send(embed=emed)
 
         with open("lastEntry.txt", "w", encoding="utf-8") as wle:
             wle.write(sentry)
 
-        await channel.send(embed=emed)
-    print(h)
-
-Bot.run(os.getenv('token')) 
+try:
+    Bot.run(os.getenv('token'))
+except discord.errors.HTTPException:
+    print("\n\n\nBLOCKED BY RATE LIMITS\nRESTARTING NOW")
+    system("python restarter.py")
+    system('kill 1')
